@@ -85,7 +85,43 @@ const UserInput: React.FC = () => {
         }
     };
 
-
+ 
+    // Handle update
+    const handleEditTask = (index: number) => {
+        const newTask = prompt("Edit task:", tasks[index].task);
+        if (newTask !== null) {
+            const newPriorityInput = prompt(
+                "Enter new priority for the task:",
+                tasks[index].priority.toString()
+            );
+            if (newPriorityInput !== null) {
+                const newPriority = parseInt(newPriorityInput);
+                if (!isNaN(newPriority) && newPriority >= 1) {
+                    const oldPriority = tasks[index].priority;
+                    const updatedTasks = tasks.map((task, i) => {
+                        if (i === index) {
+                            return {
+                                ...task,
+                                task: newTask,
+                                priority: newPriority
+                            };
+                        } else if (task.priority === newPriority) {
+                            return {
+                                ...task,
+                                priority: oldPriority
+                            };
+                        }
+                        return task;
+                    });
+                    updatedTasks.sort((a, b) => a.priority - b.priority);
+                    setTasks(updatedTasks);
+                } else {
+                    alert("Please enter a valid priority (a positive integer).");
+                }
+            }
+        }
+    };
+    
     return (
         <>
             <div className="mx-auto py-5">
@@ -141,7 +177,7 @@ const UserInput: React.FC = () => {
                             <div className="flex justify-center md:justify-end">
                                 <button
                                     className="text-blue-500 text-sm mr-2 bg-green-200 rounded p-2"
-                                //   onClick={() => handleEditTask(index)}
+                                  onClick={() => handleEditTask(index)}
                                 >
                                     Edit
                                 </button>
