@@ -9,7 +9,7 @@ const App:React.FC = () =>  {
   return (
     <>
      <Header/>
-     <br />
+     
      <UserInput/>
     </>
   )
